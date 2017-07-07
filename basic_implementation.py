@@ -24,9 +24,9 @@ possible_outputs = list(range(0, 10))
 def activation(inputs):
     activation_1 = 0
     print 'length of input', len(inputs)
-    for input in range(0, len(inputs)):
+    for i in range(0, len(inputs)):
         weight_1 = np.random.randint(0, high = 255, size = [10, 28])
-        activation_1 +=  np.dot(weight_1,inputs[input])
+        activation_1 +=  np.dot(weight_1,inputs[i])
         #activation_1 is a 10x28 array
 
         apply_transfer_function_1 = np.tanh(activation_1)
@@ -35,9 +35,9 @@ def activation(inputs):
         weight_2 = np.random.randint(0, high=255, size=[10, 28])
         activation_2 =  np.dot(np.transpose(weight_2),apply_transfer_function_1)
         #activation_2 is a 28x28 array (back to original image dimensions)
-        return activation_2
+        if i == len(inputs):
+            return activation_2
         # linear_classifier = np.sign(activation_2) #thresholding?
-#            for more than one image, need to be careful with this return statement
 
 output = [random.choice(possible_outputs)]
 expected_output = 0
@@ -50,8 +50,6 @@ for i in possible_outputs:
         truth_vector.append(0)
 print truth_vector
 
-
-
 def error_computation(a, b, output, expected_output):
    error = np.linalg.lstsq(output, expected_output)
    print error
@@ -62,4 +60,4 @@ def gradient_descent_and_error_minimization(error):
     print gradient
 
 a = activation(input_list)
-error = error_computation(a, truth_vector, output, expected_output)
+# error = error_computation(a, truth_vector, output, expected_output)
