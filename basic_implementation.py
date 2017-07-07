@@ -21,8 +21,6 @@ input_list.append(current_input)
 
 possible_outputs = list(range(0, 10))
 
-
-
 def activation(inputs):
     activation_1 = 0
     print 'length of input', len(inputs)
@@ -37,20 +35,31 @@ def activation(inputs):
         weight_2 = np.random.randint(0, high=255, size=[10, 28])
         activation_2 =  np.dot(np.transpose(weight_2),apply_transfer_function_1)
         #activation_2 is a 28x28 array (back to original image dimensions)
-
-        linear_classifier = np.sign(activation_2) #thresholding?
+        return activation_2
+        # linear_classifier = np.sign(activation_2) #thresholding?
+#            for more than one image, need to be careful with this return statement
 
 output = [random.choice(possible_outputs)]
-expected_output = [0]
+expected_output = 0
 
-def error_computation(output, expected_output):
-   error = mean_squared_error(output, expected_output)
+truth_vector = []
+for i in possible_outputs:
+    if i == 0:
+        truth_vector.append(1)
+    else:
+        truth_vector.append(0)
+print truth_vector
+
+
+
+def error_computation(a, b, output, expected_output):
+   error = np.linalg.lstsq(output, expected_output)
    print error
    return error
 
-def gradient_descent():
-    
+def gradient_descent_and_error_minimization(error):
+    gradient = np.gradient([error]) # right now error is a float, need a function with parameters to compute gradient wrt a certain parameter
+    print gradient
 
-
-activation(input_list)
-error_computation(output, expected_output)
+a = activation(input_list)
+error = error_computation(a, truth_vector, output, expected_output)
