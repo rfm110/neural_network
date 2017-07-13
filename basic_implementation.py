@@ -50,6 +50,7 @@ def activation(inputs):
         print np.shape(weight_2)
         print weight_2
         activation_2 = np.dot(np.transpose(weight_2),apply_transfer_function_1)
+        activation_2[activation_2 < 400] = 0.0
         activation_2[activation_2 < 550] = 5.0
         activation_2[activation_2 < 650] = 6.0
         activation_2[activation_2 < 750] = 7.0
@@ -104,13 +105,16 @@ def error_computation(output_vector, truth_vector, activation_2):
    # x
 
    correction_of_error = np.linalg.lstsq(output_vector, error_array)
+   # this function is not working well
    return correction_of_error
    # print correction_of_error
 
+def backpropagation():
+    pass
 # def gradient_descent_and_error_minimization(error):
 #     gradient = np.gradient([error]) # dont need since lstq is doing the subtraction part
 #     print gradient
-# keep track of error while working backwwards
+# keep track of error while working backwards
 # graph results to keep track?
 
 a = activation(input_list)
